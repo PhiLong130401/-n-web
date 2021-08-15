@@ -1,0 +1,185 @@
+﻿@model ShopOnlineConnection.SanPham
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div id="page-content" class="single-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="breadcrumb">
+                    <li><a href="#">Trang Chủ</a></li>
+                    <li><a href="category.html">thể loại</a></li>
+                    <li><a href="#">@Model.TenSanPham</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div id="main-content" class="col-md-8">
+                <div class="product">
+                    <div class="col-md-6">
+                        <div class="image">
+                            <img src="~/Asset/img/@Model.HinhChinh" />
+                            <div class="image-more">
+                                <ul class="row">
+                                    <li class="col-lg-3 col-sm-3 col-xs-4">
+                                        <a href="#"><img class="img-responsive" src="~/Asset/img/@Model.Hinh1"></a>
+                                    </li>
+                                    <li class="col-lg-3 col-sm-3 col-xs-4">
+                                        <a href="#"><img class="img-responsive" src="~/Asset/img/@Model.Hinh2"></a>
+                                    </li>
+                                    <li class="col-lg-3 col-sm-3 col-xs-4">
+                                        <a href="#"><img class="img-responsive" src="~/Asset/img/@Model.Hinh3"></a>
+                                    </li>
+                                    <li class="col-lg-3 col-sm-3 col-xs-4">
+                                        <a href="#"><img class="img-responsive" src="~/Asset/img/@Model.Hinh4"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="caption">
+                            <div class="name"><h3>@Model.TenSanPham</h3></div>
+                            <div class="price"> @string.Format(System.Globalization.CultureInfo.GetCultureInfo("vi-VN"), "{0:c}", Model.Gia)</div>
+                            @Html.Raw(HttpUtility.HtmlDecode(Model.CauHinh))
+                            <div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span></div>
+
+                            @using (Html.BeginForm("Them", "GioHang", FormMethod.Post))
+                            {
+                                <input type="hidden" name="tensanpham" value="@Model.TenSanPham" />
+                                <input type="hidden" name="masanpham" value="@Model.MaSanPham" />
+                                <input type="hidden" name="gia" value="@Model.Gia" />
+                                <input type="hidden" name="HinhChinh" value="@Model.HinhChinh"/>
+                                <label>Số Lượng: </label> <input class="form-inline quantity" type="number" value="1" min="1" max="1000" name="soluong" />
+                                if (User.Identity.IsAuthenticated)
+                                {
+                                    <input type="submit" class="btn btn-2 " value="Thêm vào giỏ">
+                                }
+                                else
+                                {
+                                    <span>Đăng nhập để Mua Sản Phẩm</span>
+                                }
+
+
+                            }
+                        </div>
+                    </div>
+                    <div class="clear" style="height:10%;   "></div>
+                </div>
+                <div class="product-desc">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#description">Miêu tả</a></li>
+                        <li><a href="#review">Giới thiệu</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="description" class="tab-pane fade in active">
+                            @Html.Raw(HttpUtility.HtmlDecode(Model.CauHinh))
+                        </div>
+                        <div id="review" class="tab-pane fade">
+                            <div class="review-text">
+                                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            </div>
+                            <div class="review-form">
+                                <h4>Write a review</h4>
+                                <form name="form1" id="ff" method="post" action="review.php">
+                                    <label>
+                                        <span>Enter your name:</span>
+                                        <input type="text" name="name" id="name" required>
+                                    </label>
+                                    <label>
+                                        <span>Your message here:</span>
+                                        <textarea name="message" id="message"></textarea>
+                                    </label>
+                                    <div class="text-right">
+                                        <input class="btn btn-default" type="reset" name="reset" value="Reset">
+                                        <input class="btn btn-default" type="submit" name="Submit" value="Submit">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div id="sidebar" class="col-md-4">
+                <div class="widget wid-categories">
+                    <div class="heading"><h4>THỂ LOẠI</h4></div>
+                    <div class="content">
+                        <ul>
+                            <li>@Html.ActionLink("Máy Tính PC", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Laptops & Notebooks", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Điện thoại & Máy tính bảng", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Phần mềm", "Index", "Home")</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="widget wid-type">
+                    <div class="heading"><h4>KIỂU</h4></div>
+                    <div class="content">
+                        <select>
+                            <option value="EL" selected>Thiết bị điện tử</option>
+                            <option value="MT">Chuột và bi xoay</option>
+                            <option value="WC">Máy ảnh web</option>
+                            <option value="TA">Máy tính bảng</option>
+                            <option value="AP">Bộ phận âm thanh</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="widget wid-discouts">
+                    <div class="heading"><h4>MỨC ĐỘ</h4></div>
+                    <div class="content">
+                        <label class="checkbox"><input type="checkbox" name="discount" checked="">Upto - 10% (20)</label>
+                        <label class="checkbox"><input type="checkbox" name="discount">40% - 50% (5)</label>
+                        <label class="checkbox"><input type="checkbox" name="discount">30% - 20% (7)</label>
+                        <label class="checkbox"><input type="checkbox" name="discount">10% - 5% (2)</label>
+                        <label class="checkbox"><input type="checkbox" name="discount">Other(50)</label>
+                    </div>
+                </div>
+                <div class="widget wid-brand">
+                    <div class="heading"><h4>NHÃN HIỆU</h4></div>
+                    <div class="content">
+                        <label class="checkbox"><input type="checkbox" name="brand">Nokia</label>
+                        <label class="checkbox"><input type="checkbox" name="brand">Samsung</label>
+                        <label class="checkbox"><input type="checkbox" name="brand">Iphone</label>
+                        <label class="checkbox"><input type="checkbox" name="brand">HTC</label>
+                        <label class="checkbox"><input type="checkbox" name="brand">Oppo</label>
+                        <label class="checkbox"><input type="checkbox" name="brand">Kings</label>
+                        <label class="checkbox"><input type="checkbox" name="brand">Zumba</label>
+                    </div>
+                </div>
+                @*<div class="widget wid-product">
+                        <div class="heading"><h4>MỚI NHẤT</h4></div>
+                        <div class="content">
+                            <div class="product">
+                                <a href="#"><img src="~/Asset/images/galaxy-note.jpg" /></a>
+                                <div class="wrapper">
+                                    <h5><a href="#">Samsung Galaxy Tab</a></h5>
+                                    <div class="price">8tr</div>
+                                    <div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span></div>
+                                </div>
+                            </div>
+                            <div class="product">
+                                <a href="#"><img src="~/Asset/images/galaxy-s4.jpg" /></a>
+                                <div class="wrapper">
+                                    <h5><a href="#">Samsung Galaxy E4</a></h5>
+                                    <div class="price">6tr500</div>
+                                    <div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span></div>
+                                </div>
+                            </div>
+                            <div class="product">
+                                <a href="#"><img src="~/Asset/images/Z1.png" /></a>
+                                <div class="wrapper">
+                                    <h5><a href="#">Samsung Galaxy NOTE 7</a></h5>
+                                    <div class="price">7TR300</div>
+                                    <div class="rating"><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+
